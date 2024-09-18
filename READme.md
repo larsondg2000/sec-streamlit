@@ -31,8 +31,10 @@ additional information about a particular event or transaction.
 ## Notes on pdfkit
 * requires _wkhtmltopdf_ to be installed 
 * This is a setup for a Windows environment, not sure if it works in other operating systems.
+* Set the path to your _wkhtmltopdf.exe_
+* If you are having issues, add it to your PATH environmental variables
+* Check the wkhtmltopdf github for more info: https://github.com/JazzCore/python-pdfkit/wiki/Installing-wkhtmltopdf
 ```
-path_wkhtmltopdf = r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe" # is the path to the executable
-config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)' # sets configuration
-pdfkit.from_string(html_content, pdf_file, configuration=config, options={"enable-local-file-access": ""}) 
+os.environ['PATH'] += os.pathsep + 'C:\\.....\\bin'
+                config = pdfkit.configuration(wkhtmltopdf='C:\\......\\bin\\wkhtmltopdf.exe')
 ```

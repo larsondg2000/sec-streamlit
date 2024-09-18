@@ -8,7 +8,6 @@ import base64
 from bs4 import BeautifulSoup
 from typing import List, Tuple
 import pdfkit
-import shutil
 
 # Constants
 MAX_REPORTS = 12
