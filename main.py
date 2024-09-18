@@ -96,6 +96,7 @@ def create_pdf(url: str, headers: dict):
             try:
                 # path to wkhtmltopdf
                 path_wkhtmltopdf='C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
+                print(path_wkhtmltopdf)
                 config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
 
                 # Fetch the webpage content
