@@ -35,6 +35,8 @@ additional information about a particular event or transaction.
 * If you are having issues, add it to your PATH environmental variables
 * Check the wkhtmltopdf github for more info: https://github.com/JazzCore/python-pdfkit/wiki/Installing-wkhtmltopdf
 ```
+# Set your path in the create pdf function
 os.environ['PATH'] += os.pathsep + 'C:\\.....\\bin'
-                config = pdfkit.configuration(wkhtmltopdf='C:\\......\\bin\\wkhtmltopdf.exe')
+
+config = pdfkit.configuration(wkhtmltopdf='C:\\......\\bin\\wkhtmltopdf.exe')
 ```
