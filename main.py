@@ -95,14 +95,14 @@ def create_pdf(url: str, headers: dict):
             # Convert HTML to PDF using pdfkit
             try:
                 # path to wkhtmltopdf
-                path_wkhtmltopdf = r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe"
-                config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+                # path_wkhtmltopdf = r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe"
+                # config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
 
                 # Fetch the webpage content
                 html_content = response.text
 
                 # Convert HTML to PDF
-                pdf = pdfkit.from_string(html_content, False, configuration=config)
+                pdf = pdfkit.from_string(html_content, False)
 
                 # Save PDF to a temporary file
                 with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
