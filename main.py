@@ -6,7 +6,7 @@ import requests
 import tempfile
 import base64
 from bs4 import BeautifulSoup
-from typing import List, Tuple
+from typing import Tuple
 import pdfkit
 
 # Constants
