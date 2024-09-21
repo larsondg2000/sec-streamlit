@@ -357,11 +357,13 @@ and other disclosures.
 events that shareholders should know about.
 * **SEC Exhibit 99.1**:  a document that is filed with the Securities and Exchange Commission (SEC) by companies to provide 
 additional information about a particular event or transaction.
- 
-* **Ticker**:  ticker of a stock (example: Microsoft ticker is MSFT)
 
+### Links
 - SEC Main Page:  https://www.sec.gov/
 - SEC Developer Resources:  https://www.sec.gov/developer
+- Open AI API key: https://platform.openai.com/api-keys
+- Open AI model information: https://platform.openai.com/docs/models
+- Open AI model pricing: https://openai.com/pricing
 """
 )
 
