@@ -14,6 +14,23 @@ inputs a stock ticker, selects the report type, your email address (to access ED
 For the reports, the query results will be displayed (maximum of 12) and the user can select "create report".  The
 report will create a link to the report, a downloadable pdf link, and display the report in a window. 
 
+When the report is complete, a summary of the report can be created using OpenAI models.  The summarize report also
+includes an estimated cost at the completion of the summary.  These are the models that are available in the program:
+* gpt-4o-mini
+* gpt-3.5-turbo
+* gpt-4
+
+Additional models can be added in the future, but the _gpt-4o-mini_ is the cheapest model and seems to perform the best
+for the task.  
+
+For information on Open AI models and to get an API key:
+- To get an API key: https://platform.openai.com/api-keys
+- For the latest models: https://platform.openai.com/docs/models
+- For model pricing: https://openai.com/pricing
+
+**Note:** the program only works locally in Streamlit.  When deployed, there is an issue with accessing _wkhtmltopdf_
+locally on your computer.  There are some cloud HTML to PDF converters, but I have not found a free unlimited version. 
+
 ## Terms
 * SEC Form 10-K: an annual report that public companies must file with the Securities and Exchange Commission (SEC) 
 to provide a comprehensive summary of their financial performance, including audited financial statements, management 
@@ -39,4 +56,13 @@ additional information about a particular event or transaction.
 os.environ['PATH'] += os.pathsep + 'C:\\.....\\bin'
 
 config = pdfkit.configuration(wkhtmltopdf='C:\\......\\bin\\wkhtmltopdf.exe')
+```
+* If you are having issues or getting errors when converting from HTML to PDF, set verbose=True in the code below for 
+additional debug information.   
+```
+pdf = pdfkit.from_string(html_content,
+                         False, 
+                         configuration=config, 
+                         options={"enable-local-file-access": None},
+                         verbose= True)
 ```
