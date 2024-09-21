@@ -1,4 +1,4 @@
-# 10-K, 10-Q, and 8-K Reports from SEC Database
+# 10-K, 10-Q, and 8-K Reports from SEC Database in Streamlit
 #### _Includes Exhibit 99.1 Reports_
 ![alt-text](ws2.jpeg "Wall Street") 
 
