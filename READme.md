@@ -28,8 +28,10 @@ For information on Open AI models and to get an API key:
 - For the latest models: https://platform.openai.com/docs/models
 - For model pricing: https://openai.com/pricing
 
-**Note:** the program only works locally in Streamlit.  When deployed, there is an issue with accessing _wkhtmltopdf_
-locally on your computer.  There are some cloud HTML to PDF converters, but I have not found a free unlimited version. 
+**Notes:** 
+* The program only works locally in Streamlit.  When deployed, there is an issue with accessing _wkhtmltopdf_
+locally on your computer.  There are some cloud HTML to PDF converters, but I have not found a free unlimited version.
+* Summarize does not work with newer versions of Open AI (>=1.0.0).
 
 ## Terms
 * SEC Form 10-K: an annual report that public companies must file with the Securities and Exchange Commission (SEC) 
