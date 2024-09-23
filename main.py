@@ -41,7 +41,7 @@ st.sidebar.markdown("See [OpenAI's pricing](https://openai.com/pricing) for mode
 
 # Model prices per 1K tokens
 model_prices = {
-    "gpt-3.5-turbo": {"prompt": 0.0015, "completion": 0.002},  # per 1K tokens in USD
+    "gpt-3.5-turbo": {"prompt": 0.0015, "completion": 0.002},
     "gpt-4": {"prompt": 0.03, "completion": 0.06},
     "gpt-4o-mini": {"prompt": 0.00015, "completion": 0.000075},
 }
@@ -49,53 +49,53 @@ model_prices = {
 # Functions
 @st.cache_data
 def load_company_tickers():
-    with open("company_tickers_exchange.json", "r") as f:
-        return json.load(f)
+    with open("company_tickers_exchange.json", "r") as f1:
+        return json.load(f1)
 
-def ticker_to_cik(ticker: str, cik_dict: dict) -> Tuple[str, str]:
-    cik_df = pd.DataFrame(cik_dict["data"], columns=cik_dict["fields"])
-    cik = cik_df[cik_df["ticker"] == ticker].cik.values[0]
-    url = f"https://data.sec.gov/submissions/CIK{str(cik).zfill(10)}.json"
-    return str(cik), url
+def ticker_to_cik(ticker1: str, cik_dict1: dict) -> Tuple[str, str]:
+    cik_df = pd.DataFrame(cik_dict1["data"], columns=cik_dict1["fields"])
+    cik1 = cik_df[cik_df["ticker"] == ticker1].cik.values[0]
+    url1 = f"https://data.sec.gov/submissions/CIK{str(cik1).zfill(10)}.json"
+    return str(cik1), url1
 
-def get_filings(url: str, headers: dict) -> pd.DataFrame:
+def get_filings(url2: str, headers1: dict) -> pd.DataFrame:
     try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        filings_dict = json.loads(response.text)
+        response1 = requests.get(url2, headers=headers1)
+        response1.raise_for_status()
+        filings_dict = json.loads(response1.text)
         return pd.DataFrame(filings_dict["filings"]["recent"])
-    except requests.exceptions.RequestException as e:
-        st.error(f"Error fetching filings: {e}")
+    except requests.exceptions.RequestException as e1:
+        st.error(f"Error fetching filings: {e1}")
         return pd.DataFrame()
 
-def filter_reports(filings_df: pd.DataFrame, report_type: str) -> pd.DataFrame:
-    return filings_df[filings_df.form == report_type]
+def filter_reports(filings_df1: pd.DataFrame, report_type1: str) -> pd.DataFrame:
+    return filings_df1[filings_df1.form == report_type1]
 
-def get_exhibit_99_1_link(url: str, headers: dict) -> str:
+def get_exhibit_99_1_link(url3: str, headers2: dict) -> str:
     try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        soup = BeautifulSoup(response.content, 'html.parser')
-        base_url = url.rsplit('/', maxsplit=1)[0] + '/'
+        response2 = requests.get(url3, headers=headers2)
+        response2.raise_for_status()
+        soup = BeautifulSoup(response2.content, 'html.parser')
+        base_url = url3.rsplit('/', maxsplit=1)[0] + '/'
         for link in soup.select('[href*="ex99"]'):
             return base_url + link['href']
-    except requests.exceptions.RequestException as e:
-        st.error(f"Error fetching exhibit 99.1 link: {e}")
+    except requests.exceptions.RequestException as e1:
+        st.error(f"Error fetching exhibit 99.1 link: {e1}")
     return ""
 
-def create_pdf(url: str, headers: dict):
+def create_pdf(url3: str, headers3: dict):
     try:
-        st.write(f"Attempting to fetch content from URL: {url}")
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
+        st.write(f"Attempting to fetch content from URL: {url3}")
+        response3 = requests.get(url3, headers=headers3)
+        response3.raise_for_status()
 
-        content_type = response.headers.get('Content-Type', '')
+        content_type = response3.headers.get('Content-Type', '')
         st.write(f"Content-Type of the response: {content_type}")
 
         if 'application/pdf' in content_type:
             # If it's a PDF, save it directly
             with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
-                temp_file.write(response.content)
+                temp_file.write(response3.content)
                 temp_file_path = temp_file.name
             st.write(f"Created temporary PDF file: {temp_file_path}")
             return temp_file_path, 'pdf'
@@ -108,7 +108,7 @@ def create_pdf(url: str, headers: dict):
                 config = pdfkit.configuration(wkhtmltopdf='C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe')
 
                 # Fetch the webpage content
-                html_content = response.text
+                html_content = response3.text
 
                 # Convert HTML to PDF
                 # Add verbose=True for troubleshooting
@@ -125,79 +125,79 @@ def create_pdf(url: str, headers: dict):
 
                 st.write(f"Created temporary PDF file: {temp_file_path}")
                 return temp_file_path, 'pdf'
-            except Exception as e:
-                st.error(f"Error converting HTML to PDF: {e}")
+            except Exception as e2:
+                st.error(f"Error converting HTML to PDF: {e2}")
                 # Save HTML content to a temporary file
                 with tempfile.NamedTemporaryFile(delete=False, suffix='.html') as temp_file:
-                    temp_file.write(response.content)
+                    temp_file.write(response3.content)
                     temp_file_path = temp_file.name
                 st.write(f"Saved HTML content to temporary file: {temp_file_path}")
                 return temp_file_path, 'html'
         else:
             st.error("Unsupported content type.")
             return None, None
-    except Exception as e:
-        st.error(f"Error creating PDF: {e}")
+    except Exception as e2:
+        st.error(f"Error creating PDF: {e2}")
         return None, None
 
-def get_pdf_display_link(file_path: str):
+def get_pdf_display_link(file_path1: str):
     try:
-        with open(file_path, "rb") as f:
-            base64_file = base64.b64encode(f.read()).decode('utf-8')
+        with open(file_path1, "rb") as f2:
+            base64_file = base64.b64encode(f2.read()).decode('utf-8')
 
-        file_type = 'application/pdf' if file_path.endswith('.pdf') else 'text/html'
+        file_type = 'application/pdf' if file_path1.endswith('.pdf') else 'text/html'
 
         # File viewer
         file_display = f'<iframe src="data:{file_type};base64,{base64_file}" width="100%" height="600" type="{file_type}"></iframe>'
 
         # Download link
         st.markdown(
-            f'<a href="data:{file_type};base64,{base64_file}" download="report{os.path.splitext(file_path)[1]}">Download File</a>',
+            f'<a href="data:{file_type};base64,{base64_file}" download="report{os.path.splitext(file_path1)[1]}">Download File</a>',
             unsafe_allow_html=True)
 
         return file_display
-    except Exception as e:
-        st.error(f"Error creating display link: {e}")
+    except Exception as e3:
+        st.error(f"Error creating display link: {e3}")
         return None
 
 def split_text_into_chunks(text, max_chunk_size=3000):
     words = text.split()
-    chunks = []
-    for i in range(0, len(words), max_chunk_size):
-        chunk = ' '.join(words[i:i+max_chunk_size])
-        chunks.append(chunk)
-    return chunks
+    chunks1 = []
+    for i1 in range(0, len(words), max_chunk_size):
+        chunk1 = ' '.join(words[i1:i1 + max_chunk_size])
+        chunks1.append(chunk1)
+    return chunks1
 
-def create_pdf_callback(report_info):
+def create_pdf_callback(report_info1):
     st.write("Create Report button clicked")
-    if report_info['report_type'] in ["10-K", "10-Q"]:
-        url = f"https://www.sec.gov/Archives/edgar/data/{report_info['cik']}/{report_info['acc_number']}/{report_info['primary_doc']}"
-    elif report_info['report_type'] == "8-K" and report_info.get('exhibit_link'):
-        url = report_info['exhibit_link']
+    if report_info1['report_type'] in ["10-K", "10-Q"]:
+        url4 = f"https://www.sec.gov/Archives/edgar/data/{report_info1['cik']}/{report_info1['acc_number']}/{report_info1['primary_doc']}"
+    elif report_info1['report_type'] == "8-K" and report_info1.get('exhibit_link'):
+        url4 = report_info1['exhibit_link']
     else:
         st.warning("No PDF available for this report.")
         return
 
     # Display the HTML link
-    st.markdown(f"**HTML Link:** [View Report]({url})")
+    st.markdown(f"**HTML Link:** [View Report]({url4})")
 
     # Attempt to create PDF
-    file_path, file_type = create_pdf(url, report_info['headers'])
-    if file_path:
+    file_path2, file_type = create_pdf(url4, report_info1['headers'])
+    if file_path2:
         if file_type == 'pdf':
-            file_display = get_pdf_display_link(file_path)
+            file_display = get_pdf_display_link(file_path2)
             if file_display:
                 st.markdown(file_display, unsafe_allow_html=True)
                 st.success("PDF created successfully. You can view it above or download using the link.")
 
                 # Save the file path and report info in session state
-                st.session_state['file_path'] = file_path
-                st.session_state['report_info'] = report_info
+                st.session_state['file_path'] = file_path2
+                st.session_state['report_info'] = report_info1
             else:
                 st.error("Failed to create display link for the PDF file.")
         elif file_type == 'html':
             st.warning("Failed to convert HTML to PDF. Displaying HTML content.")
-            file_display = get_pdf_display_link(file_path)
+            file_display = get_pdf_display_link(file_path2)
             if file_display:
                 st.markdown(file_display, unsafe_allow_html=True)
                 st.success("HTML content displayed above.")
