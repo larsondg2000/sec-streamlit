@@ -48,8 +48,8 @@ additional information about a particular event or transaction.
 * Ticker: ticker of a stock (example: Microsoft ticker is MSFT)
 
 ## Notes on pdfkit
-* requires _wkhtmltopdf_ to be installed 
-* This is a setup for a Windows environment, not sure if it works in other operating systems.
+* Requires _wkhtmltopdf_ to be installed 
+* This is a setup has been tried in a Windows environment only.
 * Set the path to your _wkhtmltopdf.exe_
 * If you are having issues, add it to your PATH environmental variables
 * Check the wkhtmltopdf github for more info: https://github.com/JazzCore/python-pdfkit/wiki/Installing-wkhtmltopdf
