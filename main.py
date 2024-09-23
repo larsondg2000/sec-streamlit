@@ -299,8 +299,14 @@ if 'file_path' in st.session_state and 'report_info' in st.session_state:
                     response = openai.ChatCompletion.create(
                         model=selected_model,
                         messages=[
-                            {"role": "system", "content": "You are a helpful assistant that summarizes SEC reports."},
-                            {"role": "user", "content": f"Please summarize the following text:\n\n{chunk}"}
+                            {"role": "system",
+                             "content": "You are an AI assistant specialized in summarizing SEC 10-K, 10-Q, and 8-K "
+                                        "(exhibit 99.1) reports. Your primary function is to extract and present key "
+                                        "financial information, company updates, and potential risk factors from these "
+                                        "documents."},
+                            {"role": "user",
+                             "content": f"Please summarize the following text with appropriate currency symbols and "
+                                        f"percentages:\n\n{chunk}. "}
                         ]
                     )
                     summary = response['choices'][0]['message']['content']
@@ -319,7 +325,8 @@ if 'file_path' in st.session_state and 'report_info' in st.session_state:
                 response = openai.ChatCompletion.create(
                     model=selected_model,
                     messages=[
-                        {"role": "system", "content": "You are a helpful assistant that summarizes SEC reports."},
+                        {"role": "system", "content":
+                            "You are a helpful assistant that summarizes SEC reports."},
                         {"role": "user", "content": f"Please provide a concise summary of the following:\n\n{combined_summary}"}
                     ]
                 )
