@@ -303,10 +303,11 @@ if 'file_path' in st.session_state and 'report_info' in st.session_state:
                              "content": "You are an AI assistant specialized in summarizing SEC 10-K, 10-Q, and 8-K "
                                         "(exhibit 99.1) reports. Your primary function is to extract and present key "
                                         "financial information, company updates, and potential risk factors from these "
-                                        "documents."},
+                                        "documents. please format the output to account for special characters and fonts. "},
                             {"role": "user",
-                             "content": f"Please summarize the following text with appropriate currency symbols and "
-                                        f"percentages:\n\n{chunk}. "}
+                             "content": f"Please summarize the following text with appropriate currency symbols, "
+                                        f"percentages, and other special characters.  "
+                                        f"The output should be easy to read using the same font and style:\n\n{chunk}. "}
                         ]
                     )
                     summary = response['choices'][0]['message']['content']
